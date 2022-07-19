@@ -1,0 +1,61 @@
+---
+Description: Creates a apple pkg from a downloaded disk-image file.
+Identifier: com.github.w0.recipes.pkg.rxpostproductionsuite
+MinimumVersion: "2.3"
+ParentRecipe: com.github.w0.download.rxpostproductionsuite
+
+Input: 
+  NAME: iZotope RX Post Production Suite
+
+Process: 
+  - Processor: AppDmgVersioner
+    Arguments:
+      dmg_path: "%PKG%"
+
+  # CFBundleShortVersionString is blank.
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: Version ([\d\.]+) released
+      result_output_var_name: version
+      url: https://www.izotope.com/en/products/downloads/rx_pps/rx-pps-6-release-notes.html
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs: {}
+      pkgroot: "%RECIPE_CACHE_DIR%/pkgroot"
+  
+  - Processor: Copier
+    Arguments:
+      source_path: "%PKG%/Install *.app"
+      destination_path: "%RECIPE_CACHE_DIR%/Scripts/Install %NAME%.app"
+      overwrite: true
+  
+  - Processor: FileCreator
+    Arguments:
+      file_path: "%RECIPE_CACHE_DIR%/Scripts/postinstall"
+      file_mode: "0755"
+      file_content: |
+          #!/bin/bash
+
+          # Determine working directory
+          install_dir=$(dirname $0)
+
+          # Install the %NAME% app and configure it
+          "${install_dir}/Install %NAME%.app/Contents/MacOS/installbuilder.sh" --mode unattended
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: "%bundleid%"
+        pkgname: "%NAME%-%version%"
+        pkgroot: "%RECIPE_CACHE_DIR%/pkgroot"
+        pkgtype: flat
+        scripts: Scripts
+        version: "%version%"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/Scripts"
+        - "%RECIPE_CACHE_DIR%/pkgroot"

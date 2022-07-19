@@ -1,0 +1,17 @@
+---
+Description: Provide the path to the dmg to AutoPkg with the -p switch, for example autopkg run BreakTweaker.download.recipe.yaml -p ~/Downloads/iZotope_BreakTweaker_v1_02cn.dmg
+Identifier: com.github.w0.download.breaktweaker
+MinimumVersion: "2.3"
+
+Input:
+  NAME: iZotope BreakTweaker
+
+Process: 
+  - Processor: PackageRequired
+  
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%PKG%/Install *.app"
+      requirement: anchor apple generic and identifier "com.izotope.audioplugins.BreakTweaker" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = QGULMAPEB2
+
+  - Processor: EndOfCheckPhase

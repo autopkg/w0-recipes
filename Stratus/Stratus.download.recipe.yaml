@@ -1,0 +1,17 @@
+---
+Description: Provide the path to the dmg to AutoPkg with the -p switch, for example autopkg run Stratus.download.recipe.yaml -p ~/Downloads/iZotope_Stratus_v3_0_0_b.dmg
+Identifier: com.github.w0.download.stratus
+MinimumVersion: "2.3"
+
+Input:
+  NAME: iZotope Stratus
+
+Process: 
+  - Processor: PackageRequired
+  
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%PKG%/Install *.app"
+      requirement: anchor apple generic and identifier "com.installbuilder.appinstaller" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = QGULMAPEB2
+
+  - Processor: EndOfCheckPhase
