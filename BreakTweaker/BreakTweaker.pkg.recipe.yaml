@@ -1,6 +1,6 @@
 ---
 Description: Creates a apple pkg from a downloaded disk-image file. 
-Identifier: com.github.w0.recipes.pkg.breaktweaker
+Identifier: com.github.w0.pkg.breaktweaker
 MinimumVersion: "2.3"
 ParentRecipe: com.github.w0.download.breaktweaker
 
