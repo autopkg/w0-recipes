@@ -27,7 +27,7 @@ Process:
   - Processor: Copier
     Arguments:
       source_path: "%PKG%/Install *.app"
-      destination_path: "%RECIPE_CACHE_DIR%/Scripts/Install %NAME%.app"
+      destination_path: "%RECIPE_CACHE_DIR%/Scripts/Install iZotope RX Post Production Suite.app"
       overwrite: true
   
   - Processor: FileCreator
@@ -40,8 +40,8 @@ Process:
           # Determine working directory
           install_dir=$(dirname $0)
 
-          # Install the %NAME% app and configure it
-          "${install_dir}/Install %NAME%.app/Contents/MacOS/installbuilder.sh" --mode unattended
+          # Install the iZotope RX Post Production Suite app and configure it
+          "${install_dir}/Install iZotope RX Post Production Suite.app/Contents/MacOS/installbuilder.sh" --mode unattended
 
   - Processor: PkgCreator
     Arguments:

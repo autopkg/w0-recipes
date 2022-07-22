@@ -20,7 +20,7 @@ Process:
   - Processor: Copier
     Arguments:
       source_path: "%PKG%/Install *.app"
-      destination_path: "%RECIPE_CACHE_DIR%/Scripts/Install %NAME%.app"
+      destination_path: "%RECIPE_CACHE_DIR%/Scripts/Install iZotope Stratus 3D.app"
       overwrite: true
   
   - Processor: FileCreator
@@ -33,8 +33,8 @@ Process:
           # Determine working directory
           install_dir=$(dirname $0)
 
-          # Install the %NAME% app and configure it
-          "${install_dir}/Install %NAME%.app/Contents/MacOS/installbuilder.sh" --mode unattended
+          # Install the iZotope Stratus 3D app and configure it
+          "${install_dir}/Install iZotope Stratus 3D.app/Contents/MacOS/installbuilder.sh" --mode unattended
 
   - Processor: PkgCreator
     Arguments:
