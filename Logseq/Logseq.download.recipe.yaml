@@ -1,0 +1,25 @@
+---
+Description: Downloads the latest logseq disk image from github.
+Identifier: com.github.w0.download.logseq
+MinimumVersion: "2.3"
+
+Input:
+  NAME: Logseq
+
+  # Specify your Arch as either x64 or arm64 in your override.
+  ARCH: x64
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      asset_regex: Logseq-darwin-%ARCH%-[0-9]+\.[0-9]+\.[0-9]+\.dmg
+      github_repo: logseq/logseq
+  
+  - Processor: URLDownloader
+  
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%pathname%/*.app"
+      requirement: anchor apple generic and identifier "com.electron.logseq" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "3K44EUN829"
+
+  - Processor: EndOfCheckPhase
