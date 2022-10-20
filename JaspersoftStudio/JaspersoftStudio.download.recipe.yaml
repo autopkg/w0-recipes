@@ -1,0 +1,23 @@
+---
+Description: Downloads the latest Jaspersoft Studio disk image from sourceforge.
+Identifier: com.github.w0.download.jaspersoftstudio
+MinimumVersion: "2.3"
+
+Input:
+  NAME: Jaspersoft Studio
+
+Process:
+  - Processor: com.github.n8felton.shared/SourceForgeBestReleaseURLProvider
+    Arguments:
+      SOURCEFORGE_PROJECT_NAME: jasperstudio
+  
+  - Processor: URLDownloader
+    Arguments:
+      prefetch_filename: true
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%pathname%/*.app"
+      requirement: identifier "com.jaspersoft.studio.rcp.product" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = U54E52GZ8M
+
+  - Processor: EndOfCheckPhase
