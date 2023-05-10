@@ -1,0 +1,16 @@
+Description: Downloads the cura-lulzbot diskimage
+Identifier: com.github.w0.download.cura-lulzbot
+Input:
+  NAME: cura-lulzbot
+MinimumVersion: '2.3'
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: (https?:)?//(download\.lulzbot\.com/Software/cura-lulzbot/mac/cura-lulzbot[_-]\d+\.\d+(\.\d+)?.dmg)
+      url: https://www.lulzbot.com/learn/tutorials/cura-lulzbot-edition-installation-macos
+
+  - Processor: URLDownloader
+    Arguments:
+      url: https://%match%
+
+  - Processor: EndOfCheckPhase
