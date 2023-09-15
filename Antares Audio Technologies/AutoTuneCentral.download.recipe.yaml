@@ -1,0 +1,20 @@
+---
+Description: Downloads the disk-image at the specified DOWNLOAD_URL. 
+Identifier: com.github.w0.download.autotunecentral
+MinimumVersion: "2.3"
+
+Input:
+  NAME: Auto-Tune Central
+  DOWNLOAD_URL: https://antares.sfo2.cdn.digitaloceanspaces.com/auto-tune-central/auto-update/mac/Auto_Tune_Central_1.3.3_universal.dmg
+
+Process: 
+  - Processor: URLDownloader
+    Arguments:
+      url: "%DOWNLOAD_URL%"
+  
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%pathname%/*.app"
+      requirement: anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EWQDQRUXQ8
+
+  - Processor: EndOfCheckPhase
