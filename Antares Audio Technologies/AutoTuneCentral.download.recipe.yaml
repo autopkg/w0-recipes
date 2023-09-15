@@ -1,16 +1,20 @@
 ---
-Description: Downloads the disk-image at the specified DOWNLOAD_URL. 
+Description: Downloads the latest Auto-Tune Central disk-image.
 Identifier: com.github.w0.download.autotunecentral
 MinimumVersion: "2.3"
 
 Input:
   NAME: Auto-Tune Central
-  DOWNLOAD_URL: https://antares.sfo2.cdn.digitaloceanspaces.com/auto-tune-central/auto-update/mac/Auto_Tune_Central_1.3.3_universal.dmg
 
-Process: 
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: https://antares.sfo2.cdn.digitaloceanspaces.com/auto-tune-central/auto-update/mac/Auto_Tune_Central_[0-9.]+_universal.dmg
+      url: https://www.antarestech.com/js/chunk-2d0d0918.076148aa.js
+  
   - Processor: URLDownloader
     Arguments:
-      url: "%DOWNLOAD_URL%"
+      url: "%match%"
   
   - Processor: CodeSignatureVerifier
     Arguments:
