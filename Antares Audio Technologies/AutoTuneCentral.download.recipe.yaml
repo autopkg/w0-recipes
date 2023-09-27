@@ -10,7 +10,7 @@ Process:
   - Processor: URLTextSearcher
     Arguments:
       re_pattern: https://antares.sfo2.cdn.digitaloceanspaces.com/auto-tune-central/auto-update/mac/Auto_Tune_Central_[0-9.]+_universal.dmg
-      url: https://www.antarestech.com/js/chunk-2d0d0918.076148aa.js
+      url: https://www.antarestech.com/js/chunk-2d0d0918.0974388e.js
   
   - Processor: URLDownloader
     Arguments:
