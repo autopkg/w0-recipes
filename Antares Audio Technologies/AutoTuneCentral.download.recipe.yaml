@@ -9,12 +9,12 @@ Input:
 Process:
   - Processor: URLTextSearcher
     Arguments:
-      re_pattern: https://antares.sfo2.cdn.digitaloceanspaces.com/auto-tune-central/auto-update/mac/Auto_Tune_Central_[0-9.]+_universal.dmg
-      url: https://www.antarestech.com/js/chunk-2d0d0918.076148aa.js
+      re_pattern: "[0-9.]+"
+      url: https://antares.sfo2.digitaloceanspaces.com/auto-tune-central/auto-update/mac/latest-mac.yml 
   
   - Processor: URLDownloader
     Arguments:
-      url: "%match%"
+      url: "https://antares.sfo2.cdn.digitaloceanspaces.com/auto-tune-central/auto-update/mac/Auto_Tune_Central_%match%_universal.dmg"
   
   - Processor: CodeSignatureVerifier
     Arguments:
