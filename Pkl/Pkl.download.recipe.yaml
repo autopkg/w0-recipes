@@ -1,0 +1,20 @@
+---
+Description: Downloads the latest Pkl binary from github.
+Identifier: com.github.w0.download.pkl
+MinimumVersion: "2.3"
+
+Input:
+  NAME: Pkl
+
+  # Specify your Arch as either amd64 or aarch64 in your override.
+  ARCH: amd64
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      asset_regex: pkl-macos-%ARCH%
+      github_repo: apple/pkl
+  
+  - Processor: URLDownloader
+  
+  - Processor: EndOfCheckPhase

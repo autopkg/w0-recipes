@@ -1,0 +1,41 @@
+---
+Description: Creates an apple pkg from a downloaded binary.
+Identifier: com.github.w0.pkg.pkl
+MinimumVersion: "2.3"
+ParentRecipe: com.github.w0.download.pkl
+
+Input:
+  NAME: Pkl
+
+Process:
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        usr: "0755"
+        usr/local: "0755"
+        usr/local/bin: "0755"
+      pkgroot: "%RECIPE_CACHE_DIR%/%NAME%"
+  
+  - Processor: Copier
+    Arguments:
+      destination_path: "%pkgroot%/usr/local/bin/pkl"
+      source_path: "%pathname%"
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown:
+          - group: admin
+            mode: "0755"
+            path: usr
+            user: root
+        id: "com.apple.pkl"
+        version: "%version%"
+        options: purge_ds_store
+        pkgdir: "%RECIPE_CACHE_DIR%"
+      pkgname: "%NAME%-%ARCH%-%version%"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/%NAME%"
