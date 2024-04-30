@@ -6,7 +6,7 @@ MinimumVersion: '2.3'
 Process:
   - Processor: URLTextSearcher
     Arguments:
-      re_pattern: (https?:)?//(download\.lulzbot\.com/Software/cura-lulzbot/mac/cura-lulzbot[_-]\d+\.\d+(\.\d+)?.dmg)
+      re_pattern: (https?:)?//(software\.lulzbot\.com/MacOSX/Cura%20LulzBot%20Edition%20[\d\.]+/[\d\.]+/Cura_LulzBot_Edition[_-][\d\.]+.dmg)
       url: https://www.lulzbot.com/learn/tutorials/cura-lulzbot-edition-installation-macos
 
   - Processor: URLDownloader
