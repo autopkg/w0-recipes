@@ -1,0 +1,60 @@
+---
+Description: Attempting to create a generic pkg recipe for all izotope products that are in the installbuilder format. This can break if iZotope fails to fill out the info.plist properly.
+Identifier: com.github.w0.pkg.izotope
+MinimumVersion: "2.3"
+ParentRecipe: com.github.w0.download.izotope
+
+Input: 
+  NAME: iZotope
+
+Process: 
+  - Processor: AppDmgVersioner
+    Arguments:
+      dmg_path: "%PKG%"
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs: {}
+      pkgroot: "%RECIPE_CACHE_DIR%/pkgroot"
+  
+  - Processor: Copier
+    Arguments:
+      source_path: "%PKG%/Install *.app"
+      destination_path: "%RECIPE_CACHE_DIR%/Scripts/%app_name%"
+      overwrite: true
+  
+  - Processor: PlistReader
+    Arguments:
+      info_path: "%RECIPE_CACHE_DIR%/Scripts/%app_name%"
+      plist_keys:
+        CFBundleName: APP_NAME
+  
+  - Processor: FileCreator
+    Arguments:
+      file_path: "%RECIPE_CACHE_DIR%/Scripts/postinstall"
+      file_mode: "0755"
+      file_content: |
+          #!/bin/bash
+
+          # Determine working directory
+          install_dir=$(dirname $0)
+
+          # Install the iZotope RX Audio Editor Advanced app and configure it
+          "${install_dir}/%app_name%/Contents/MacOS/installbuilder.sh" --mode unattended
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: "%bundleid%"
+        pkgname: "%APP_NAME%-%version%"
+        pkgroot: "%RECIPE_CACHE_DIR%/pkgroot"
+        pkgtype: flat
+        scripts: Scripts
+        version: "%version%"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/Scripts"
+        - "%RECIPE_CACHE_DIR%/pkgroot"

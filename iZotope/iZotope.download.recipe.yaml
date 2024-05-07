@@ -1,0 +1,12 @@
+---
+Description: Provide the path to the dmg to AutoPkg with the -p switch, for example autopkg run RXAdvanced.download.recipe.yaml -p ~/Downloads/iZotope_RX_9_Audio_Editor_Advanced_v9_3_0.dmg
+Identifier: com.github.w0.download.izotope
+MinimumVersion: "2.3"
+
+Input:
+  NAME: iZotope
+
+Process: 
+  - Processor: PackageRequired
+
+  - Processor: EndOfCheckPhase
