@@ -1,0 +1,14 @@
+---
+Description: Extracts the latest Desktop Video installer pkg.
+Identifier: com.github.w0.pkg.blackmagicdesktopvideo
+MinimumVersion: "2.3"
+ParentRecipe: com.github.w0.download.blackmagicdesktopvideo
+
+Input:
+  NAME: Blackmagic Desktop Video
+
+Process:
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: "%RECIPE_CACHE_DIR%/unarchive/Blackmagic_Desktop_Video_%version%.dmg/*.pkg"
+      pkg_path: "%RECIPE_CACHE_DIR%/BlackmagicDesktopVideo-%version%.pkg"

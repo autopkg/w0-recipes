@@ -1,0 +1,33 @@
+---
+Description: Downloads the latest Blackmagic Desktop Video zip file and extracts it.
+Identifier: com.github.w0.download.blackmagicdesktopvideo
+MinimumVersion: "2.3"
+
+Input:
+  NAME: Blackmagic Desktop Video
+
+Process:
+  - Processor: com.github.timsutton.download.davinciresolvelite11/BlackMagicURLProvider
+    Arguments:
+      product_name_pattern: ^Desktop Video (?P<version>\d+\.\d+(\.\d+)?)$
+      product_name: Desktop Video
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: "Desktop_Video.zip"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: "%pathname%"
+      destination_path: "%RECIPE_CACHE_DIR%/unarchive"
+      purge_destination: true
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%RECIPE_CACHE_DIR%/unarchive/Blackmagic_Desktop_Video_%version%.dmg/*.pkg"
+      expected_authority_names: 
+        - "Developer ID Installer: Blackmagic Design Inc (9ZGFBWLSYP)"
+        - Developer ID Certification Authority
+        - Apple Root CA
