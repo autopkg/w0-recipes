@@ -1,0 +1,20 @@
+---
+Description: Creates a pkg from the provided dvrescue dmg.
+Identifier: com.github.w0.pkg.dvrescue-gui
+MinimumVersion: "2.3"
+ParentRecipe: com.github.w0.download.dvrescue-gui
+
+Input:
+  NAME: DVRescue
+
+Process: 
+  - Processor: URLTextSearcher
+    Arguments:
+      url: https://mediaarea.net/DVRescue/Download/Mac_OS
+      re_pattern: mediaarea\.net\/download\/binary\/dvrescue-gui\/(?P<version>[0-9.]+)\/dvrescue_GUI_.*_Mac\.dmg
+      result_output_var_name: version
+
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: "%pathname%/*.app"
+      version: "%version%"
