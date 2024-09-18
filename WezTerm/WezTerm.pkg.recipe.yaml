@@ -1,0 +1,13 @@
+---
+Description: Creates an apple pkg from a downloaded zip-file.
+Identifier: com.github.w0.pkg.wezterm
+MinimumVersion: "2.3"
+ParentRecipe: com.github.w0.download.wezterm
+
+Input:
+  NAME: WezTerm
+
+Process:
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: "%RECIPE_CACHE_DIR%/%NAME%/*/*.app"

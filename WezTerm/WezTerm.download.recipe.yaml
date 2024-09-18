@@ -1,0 +1,28 @@
+---
+Description: Downloads the latest wezterm disk image from github.
+Identifier: com.github.w0.download.wezterm
+MinimumVersion: "2.3"
+
+Input:
+  NAME: WezTerm
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      asset_regex: WezTerm-macos-.*\.zip 
+      github_repo: wez/wezterm
+  
+  - Processor: URLDownloader
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: "%pathname%"
+      archive_format: zip
+      purge_destination: true
+  
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%RECIPE_CACHE_DIR%/%NAME%/*/*.app"
+      requirement: anchor apple generic and identifier "com.github.wez.wezterm" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = P4A6FU9KZ3
+
+  - Processor: EndOfCheckPhase
