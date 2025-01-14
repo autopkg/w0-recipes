@@ -1,0 +1,24 @@
+---
+Description: Download the latest dmg.
+Identifier: com.github.w0.download.mediaconch-gui
+MinimumVersion: "2.3"
+
+Input:
+  Name: MediaConch
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      url: https://mediaarea.net/MediaConch/Download/Mac_OS
+      re_pattern: mediaarea\.net\/download\/binary\/mediaconch-gui\/[0-9.]+\/MediaConch_GUI_.*_Mac\.dmg
+
+  - Processor: URLDownloader
+    Arguments:
+      url: "https://%match%"
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%pathname%/*.app"
+      requirement: anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = C2SZ4M9843
+
+  - Processor: EndOfCheckPhase

@@ -1,0 +1,13 @@
+---
+Description: Create an apple pkg for MediaConch.
+Identifier: com.github.w0.pkg.mediaconch-gui
+MinimumVersion: "2.3"
+ParentRecipe: com.github.w0.download.mediaconch-gui
+
+Input:
+  Name: MediaConch
+
+Process:
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: "%pathname%/*.app"
