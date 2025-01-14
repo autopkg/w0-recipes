@@ -1,0 +1,13 @@
+---
+Descipiton: Create a pkg from the QCTools dmg.
+Identifier: com.github.w0.pkg.qctools-gui
+MinimumVersion: "2.3"
+ParentRecipe: com.github.w0.download.qctools-gui
+
+Input:
+  Name: QCTools
+
+Process:
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: "%pathname%/*.app"
